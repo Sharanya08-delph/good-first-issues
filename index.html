@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,46 +13,48 @@
     <style>
         /* ── colour tokens ── */
         :root {
-            --bg:           #ffffff;
-            --text:         #1a1a1a;
-            --border:       #d0d0d0;
-            --th-bg:        #e8eaf0;
-            --th-text:      #1a1a1a;
-            --row-alt:      #f5f7fa;
-            --row-hover:    #e8f0fe;
-            --link:         #1a73e8;
-            --btn-bg:       #1a73e8;
-            --btn-hover:    #1558b0;
-            --btn-text:     #ffffff;
-            --input-bg:     #ffffff;
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --border: #d0d0d0;
+            --th-bg: #e8eaf0;
+            --th-text: #1a1a1a;
+            --row-alt: #f5f7fa;
+            --row-hover: #e8f0fe;
+            --link: #1a73e8;
+            --btn-bg: #1a73e8;
+            --btn-hover: #1558b0;
+            --btn-text: #ffffff;
+            --input-bg: #ffffff;
             --input-border: #c0c0c0;
-            --focus-ring:   #1a73e8;
-            --focus-glow:   rgba(26, 115, 232, 0.25);
-            --shadow:       0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+            --focus-ring: #1a73e8;
+            --focus-glow: rgba(26, 115, 232, 0.25);
+            --shadow: 0 1px 3px rgba(0, 0, 0, .08), 0 1px 2px rgba(0, 0, 0, .06);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg:           #0f0f0f;
-                --text:         #e8e8e8;
-                --border:       #2e2e2e;
-                --th-bg:        #252535;
-                --th-text:      #dde4ff;
-                --row-alt:      #181828;
-                --row-hover:    #252545;
-                --link:         #8ab4f8;
-                --btn-bg:       #4a6cf7;
-                --btn-hover:    #6b87ff;
-                --btn-text:     #ffffff;
-                --input-bg:     #1e1e1e;
+                --bg: #0f0f0f;
+                --text: #e8e8e8;
+                --border: #2e2e2e;
+                --th-bg: #252535;
+                --th-text: #dde4ff;
+                --row-alt: #181828;
+                --row-hover: #252545;
+                --link: #8ab4f8;
+                --btn-bg: #4a6cf7;
+                --btn-hover: #6b87ff;
+                --btn-text: #ffffff;
+                --input-bg: #1e1e1e;
                 --input-border: #3e3e3e;
-                --focus-ring:   #8ab4f8;
-                --focus-glow:   rgba(138, 180, 248, 0.25);
-                --shadow:       0 1px 3px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
+                --focus-ring: #8ab4f8;
+                --focus-glow: rgba(138, 180, 248, 0.25);
+                --shadow: 0 1px 3px rgba(0, 0, 0, .4), 0 1px 2px rgba(0, 0, 0, .3);
             }
         }
 
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
         }
 
@@ -87,7 +90,10 @@
         }
 
         #searchBox,
-        #languageFilter {
+        #languageFilter,
+
+        #repoFilter,
+        #sortSelect {
             padding: 9px 13px;
             font-size: 14px;
             border: 1px solid var(--input-border);
@@ -98,7 +104,10 @@
         }
 
         #searchBox:focus-visible,
-        #languageFilter:focus-visible {
+        #languageFilter:focus-visible,
+
+        #repoFilter:focus-visible,
+        #sortSelect:focus-visible {
             outline: none;
             border-color: var(--focus-ring);
             box-shadow: 0 0 0 3px var(--focus-glow);
@@ -113,12 +122,15 @@
             flex: 0 1 180px;
         }
 
+        #languageFilter,
+        #repoFilter,
+        #sortSelect {
+            flex: 0 1 180px;
+        }
+
         /* ── table ── */
         .table-wrapper {
             overflow-x: auto;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
         }
 
         table {
@@ -126,7 +138,8 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid var(--border);
             padding: 11px 16px;
             font-size: 14px;
@@ -140,12 +153,23 @@
 
         /* Remove double-border where cells meet the wrapper edge */
         tr:first-child th,
-        tr:first-child td { border-top: none; }
-        tr:last-child td  { border-bottom: none; }
+        tr:first-child td {
+            border-top: none;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
         th:first-child,
-        td:first-child    { border-left: none; }
+        td:first-child {
+            border-left: none;
+        }
+
         th:last-child,
-        td:last-child     { border-right: none; }
+        td:last-child {
+            border-right: none;
+        }
 
         th {
             position: sticky;
@@ -197,237 +221,461 @@
         a:hover {
             text-decoration: underline;
         }
-        @media (max-width: 600px) {
-          th, td {
-              padding: 9px 12px;
-          }
 
-          td:first-child {
-              min-width: 120px;
-              overflow-wrap: anywhere;
-          }
-      }
+        @media (max-width: 600px) {
+
+            th,
+            td {
+                padding: 9px 12px;
+            }
+
+            td:first-child {
+                min-width: 120px;
+                overflow-wrap: anywhere;
+            }
+        }
+
+        .card {
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .card-meta {
+            font-size: 13px;
+            color: var(--text);
+            opacity: 0.7;
+        }
+
+        .card-footer {
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .badge {
+            margin-left: 8px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            background-color: #6b7280;
+            color: #fff;
+        }
+
+        .card-labels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .chip {
+            padding: 2px 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--text);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 16px;
+        }
+
+        .empty-state p {
+            margin: 0 0 16px;
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .empty-state button {
+            padding: 9px 16px;
+            font-size: 14px;
+            border: none;
+            border-radius: 7px;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            cursor: pointer;
+        }
+
+        .empty-state button:hover {
+            background-color: var(--btn-hover);
+
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            #searchBox,
+            #languageFilter,
+            #repoFilter,
+            #sortSelect {
+                flex: 1 1 100%;
+                min-width: 0;
+                width: 100%;
+            }
+        }
+
+        #issuesList {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 12px;
+        }
+
+        .card {
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+        }
+
+        @media (min-width: 900px) {
+            #issuesList {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h1>Good First Issues</h1>
+        <h1>Good First Issues</h1>
 
-    <div class="toolbar">
-        <input type="text" id="searchBox" placeholder="Search issues...">
+        <div class="toolbar">
+            <input type="text" id="searchBox" placeholder="Search issues...">
 
-        <select id="languageFilter" aria-label="Filter by language">
-            <option value="">All languages</option>
-        </select>
+
+            <select id="languageFilter" aria-label="Filter by language">
+                <option value="">All languages</option>
+            </select>
+            <select id="repoFilter" aria-label="Filter by repository">
+                <option value="">All repositories</option>
+            </select>
+            <select id="sortSelect" aria-label="Sort issues">
+                <option value="updated_at:desc">Recently updated</option>
+                <option value="created_at:desc">Recently created</option>
+                <option value="repo:asc">Repository name (A–Z)</option>
+                <option value="comments:desc">Most comments</option>
+            </select>
+
+        </div>
+
+        <div class="table-wrapper">
+            <div id="issuesList"></div>
+        </div>
 
     </div>
 
-    <div class="table-wrapper">
-        <table id="issuesTable"></table>
-    </div>
+    <script>
+        let issuesData = []
+        let currentSearch = "";
+        let currentRepo = "";
+        let currentLanguage = "";
 
-</div>
+        let sortDir = "desc";
+        let sortColumn = "updated_at";
 
-<script>
-    let issuesData = []
-    let currentSearch = "";
-    let currentLanguage = "";
-    let sortColumn = null;
-    let sortDir = "desc";
+        const COLUMNS = [
+            { key: "repo", label: "Repo" },
+            { key: "language", label: "Language" },
+            { key: "title", label: "Title", render: "link", href: "url", truncate: 90 },
+            { key: "comments", label: "Comments", sortable: true, numeric: true, align: "center" },
+            { key: "labels", label: "Labels" },
+            { key: "created_at", label: "Created", sortable: true },
+            { key: "updated_at", label: "Updated", sortable: true },
+        ];
+        const LANGUAGE_COLORS = {
+            "Go": "#007d9c",
+            "TypeScript": "#2b7489",
+            "Python": "#3572A5",
+            "JavaScript": "#a16207",
+            "HTML": "#c2410c",
+            "Rust": "#b7410e",
+            "Jupyter Notebook": "#9a3412",
+            "C": "#555555",
+            "HCL": "#6d3fa8",
+            "C++": "#be185d",
+            "C#": "#15803d",
+            "Swift": "#b91c1c",
+            "SCSS": "#a8326b",
+            "Makefile": "#3f6212",
+            "PHP": "#4f5d95",
+            "Java": "#8a5a14",
+            "Shell": "#166534",
+        };
 
-    const COLUMNS = [
-        { key: "repo",       label: "Repo" },
-        { key: "language",   label: "Language" },
-        { key: "title", label: "Title", render: "link", href: "url", truncate: 90 },
-        { key: "comments",   label: "Comments", sortable: true, numeric: true, align: "center" },
-        { key: "labels",     label: "Labels" },
-        { key: "created_at", label: "Created",  sortable: true },
-        { key: "updated_at", label: "Updated",  sortable: true },
-    ];
+        const $ = (id) => document.getElementById(id);
+        const searchBox = $("searchBox");
+        const languageFilter = $("languageFilter");
+        const repoFilter = $("repoFilter");
+        const sortSelect = $("sortSelect");
+        const issuesList = $("issuesList");
 
-    const $ = (id) => document.getElementById(id);
-    const searchBox = $("searchBox");
-    const languageFilter = $("languageFilter");
-    const table = $("issuesTable");
-
-    function handleSort(column) {
-        if (sortColumn === column) {
-            sortDir = sortDir === "desc" ? "asc" : "desc";
-        } else {
-            sortColumn = column;
-            sortDir = "desc";
-        }
-        updateTable();
-    }
-
-    function renderTable(data) {
-
-        table.innerHTML = "";
-
-        const header = data[0];
-        const rows = data.slice(1);
-
-        const idx = {};
-        header.forEach((name, i) => { idx[name] = i; });
-
-        const visible = COLUMNS.filter(c => !c.hidden);
-
-        const headTr = document.createElement("tr");
-        visible.forEach(col => {
-            const th = document.createElement("th");
-            if (col.align) {
-                th.classList.add(`align-${col.align}`);
-            }
-
-            if (col.sortable) {
-                const btn = document.createElement("button");
-                btn.className = "sort-btn";
-                btn.type = "button";
-
-                const indicator = sortColumn === col.key
-                    ? (sortDir === "asc" ? " \u25B2" : " \u25BC")
-                    : "";
-                btn.textContent = col.label + indicator;
-
-                btn.addEventListener("click", () => handleSort(col.key));
-                th.appendChild(btn);
-
-                if (sortColumn === col.key) {
-                    th.setAttribute("aria-sort", sortDir === "asc" ? "ascending" : "descending");
-                } else {
-                    th.setAttribute("aria-sort", "none");
-                }
+        function handleSort(column) {
+            if (sortColumn === column) {
+                sortDir = sortDir === "desc" ? "asc" : "desc";
             } else {
-                th.textContent = col.label;
+                sortColumn = column;
+                sortDir = "desc";
             }
-            headTr.appendChild(th);
-        });
-        table.appendChild(headTr);
+            updateTable();
+        }
+        function clearFilters() {
+            currentSearch = "";
+            currentLanguage = "";
+            currentRepo = "";
+            searchBox.value = "";
+            languageFilter.value = "";
+            repoFilter.value = "";
+            updateTable();
+        }
 
-        rows.forEach(row => {
-            const tr = document.createElement("tr");
+        function renderTable(data) {
 
-            visible.forEach(col => {
-                const td = document.createElement("td");
-                if (col.align) {
-                    td.classList.add(`align-${col.align}`);
+            issuesList.innerHTML = "";
+
+            const header = data[0];
+            const rows = data.slice(1);
+            if (rows.length === 0) {
+                const emptyDiv = document.createElement("div");
+                emptyDiv.className = "empty-state";
+
+                const message = document.createElement("p");
+                message.textContent = "No issues match your search or filters.";
+
+                const clearBtn = document.createElement("button");
+                clearBtn.type = "button";
+                clearBtn.textContent = "Clear filters";
+                clearBtn.addEventListener("click", clearFilters);
+                emptyDiv.appendChild(message);
+                emptyDiv.appendChild(clearBtn);
+                issuesList.appendChild(emptyDiv);
+                return;
+            }
+
+            const idx = {};
+            header.forEach((name, i) => { idx[name] = i; });
+
+            const visible = COLUMNS.filter(c => !c.hidden);
+
+
+            rows.forEach(row => {
+                const tr = document.createElement("div");
+                tr.className = "card";
+                const title = row[idx["title"]];
+                const url = row[idx["url"]];
+
+                const titleDiv = document.createElement("div");
+                titleDiv.className = "card-title";
+
+                const link = document.createElement("a");
+                const isLong = title.length > 90;
+                link.innerText = isLong ? title.slice(0, 90).trimEnd() + "…" : title;
+                link.href = url;
+                link.target = "_blank";
+                if (isLong) {
+                    link.title = title;
                 }
-                const value = row[idx[col.key]];
 
-                const isTruncated = col.truncate && value.length > col.truncate;
-                const displayValue = isTruncated ? value.slice(0, col.truncate).trimEnd() + "…" : value;
+                titleDiv.appendChild(link);
+                tr.appendChild(titleDiv);
+                const repo = row[idx["repo"]];
+                const language = row[idx["language"]];
 
-                if (col.render === "link") {
-                    const content = document.createElement("a");
-                    content.innerText = col.linkText || displayValue;
-                    content.href = col.href ? row[idx[col.href]] : value;
-                    content.target = "_blank";
-                    if (isTruncated) {
-                        content.title = value;
+                const metaDiv = document.createElement("div");
+                metaDiv.className = "card-meta";
+                metaDiv.textContent = repo;
+                const badge = document.createElement("span");
+                badge.className = "badge";
+                badge.textContent = language;
+                badge.style.backgroundColor = LANGUAGE_COLORS[language] || "#6b7280";
+                metaDiv.appendChild(badge);
+                tr.appendChild(metaDiv);
+                const labelsRaw = row[idx["labels"]];
+                const labels = labelsRaw ? labelsRaw.split(";").map(l => l.trim()).filter(l => l !== "") : [];
+                const labelsDiv = document.createElement("div");
+                labelsDiv.className = "card-labels";
+
+                labels.forEach(label => {
+                    const chip = document.createElement("span");
+                    chip.className = "chip";
+                    chip.textContent = label;
+                    labelsDiv.appendChild(chip);
+                });
+
+                tr.appendChild(labelsDiv);
+                const comments = row[idx["comments"]];
+                const updated = row[idx["updated_at"]];
+                const footerDiv = document.createElement("div");
+                footerDiv.className = "card-footer";
+                const commentWord = comments === "1" ? "comment" : "comments";
+                footerDiv.textContent = comments + " " + commentWord + " · Updated " + updated;
+                tr.appendChild(footerDiv);
+
+
+
+                /*visible.forEach(col => {
+                    const td = document.createElement("div");
+                    if (col.align) {
+                        td.classList.add(`align-${col.align}`);
                     }
-                    td.appendChild(content);
-                } else {
-                    td.innerText = displayValue;
-                    if (isTruncated) {
-                        td.title = value;
+                    const value = row[idx[col.key]];
+
+                    const isTruncated = col.truncate && value.length > col.truncate;
+                    const displayValue = isTruncated ? value.slice(0, col.truncate).trimEnd() + "…" : value;
+
+                    if (col.render === "link") {
+                        const content = document.createElement("a");
+                        content.innerText = col.linkText || displayValue;
+                        content.href = col.href ? row[idx[col.href]] : value;
+                        content.target = "_blank";
+                        if (isTruncated) {
+                            content.title = value;
+                        }
+                        td.appendChild(content);
+                    } else {
+                        td.innerText = displayValue;
+                        if (isTruncated) {
+                            td.title = value;
+                        }
                     }
-                }
-                tr.appendChild(td);
+                    tr.appendChild(td);
+                });
+                */
+                issuesList.appendChild(tr);
             });
 
-            table.appendChild(tr);
+        }
+
+        function getColumnIndex(header, columnName) {
+            return header.indexOf(columnName);
+        }
+
+        function updateTable() {
+
+            const header = issuesData[0];
+            let rows = issuesData.slice(1);
+
+            const languageIdx = getColumnIndex(header, "language");
+            const repoIdx = getColumnIndex(header, "repo");
+
+            if (currentSearch !== "") {
+                rows = rows.filter(row => {
+                    return row.join(" ").toLowerCase().includes(currentSearch.toLowerCase())
+                });
+            }
+
+            if (currentLanguage !== "") {
+                rows = rows.filter(row => {
+                    return row[languageIdx] === currentLanguage
+                });
+            }
+            if (currentRepo !== "") {
+                rows = rows.filter(row => {
+                    return row[repoIdx] === currentRepo;
+                });
+            }
+
+            if (sortColumn) {
+                const sortIdx = getColumnIndex(header, sortColumn);
+                const col = COLUMNS.find(c => c.key === sortColumn);
+                const isNumeric = col && col.numeric;
+                rows.sort((a, b) => {
+                    const av = a[sortIdx];
+                    const bv = b[sortIdx];
+                    const cmp = isNumeric ? Number(av) - Number(bv) : av.localeCompare(bv);
+                    return sortDir === "asc" ? cmp : -cmp;
+                });
+            }
+
+            renderTable([header, ...rows]);
+        }
+
+        searchBox.addEventListener("input", () => {
+            currentSearch = searchBox.value;
+
+            updateTable();
         });
 
-    }
+        languageFilter.addEventListener("change", () => {
+            currentLanguage = languageFilter.value;
 
-    function getColumnIndex(header, columnName) {
-        return header.indexOf(columnName);
-    }
-
-    function updateTable() {
-
-        const header = issuesData[0];
-        let rows = issuesData.slice(1);
-
-        const languageIdx = getColumnIndex(header, "language");
-
-        if (currentSearch !== "") {
-            rows = rows.filter(row => {
-                return row.join(" ").toLowerCase().includes(currentSearch.toLowerCase())
-            });
-        }
-
-        if (currentLanguage !== "") {
-            rows = rows.filter(row => {
-                return row[languageIdx] === currentLanguage
-            });
-        }
-
-        if (sortColumn) {
-            const sortIdx = getColumnIndex(header, sortColumn);
-            const col = COLUMNS.find(c => c.key === sortColumn);
-            const isNumeric = col && col.numeric;
-            rows.sort((a, b) => {
-                const av = a[sortIdx];
-                const bv = b[sortIdx];
-                const cmp = isNumeric ? Number(av) - Number(bv) : av.localeCompare(bv);
-                return sortDir === "asc" ? cmp : -cmp;
-            });
-        }
-
-        renderTable([header, ...rows]);
-    }
-
-    searchBox.addEventListener("input", () => {
-        currentSearch = searchBox.value;
-
-         updateTable();
-    });
-
-    languageFilter.addEventListener("change", () => {
-        currentLanguage = languageFilter.value;
-
-        updateTable();
-    })
-
-    fetch("good_first_issues.csv")
-        .then(response => response.text())
-        .then(csvText => {
-
-            Papa.parse(csvText, {
-                skipEmptyLines: true,
-                complete: function(results) {
-                    issuesData = results.data;
-
-                    const header = issuesData[0];
-                    const languageIdx = getColumnIndex(header, "language");
-
-                    const languages = [
-                        ...new Set(
-                            issuesData.slice(1).map(row => row[languageIdx])
-                        )
-                    ];
-
-                    languages.forEach(lang => {
-                        const option = document.createElement("option");
-
-                        option.value = lang;
-                        option.textContent = lang;
-
-                        languageFilter.appendChild(option);
-                    });
-
-                    renderTable(issuesData)
-                }
-            });
-        })
-        .catch(err => {
-            console.error("Error loading CSV:", err);
+            updateTable();
         });
-</script>
+        repoFilter.addEventListener("change", () => {
+            currentRepo = repoFilter.value;
+            updateTable();
+        });
+        sortSelect.addEventListener("change", () => {
+            const [column, direction] = sortSelect.value.split(":");
+            sortColumn = column;
+            sortDir = direction;
+            updateTable();
+        });
+
+        fetch("good_first_issues.csv")
+            .then(response => response.text())
+            .then(csvText => {
+
+                Papa.parse(csvText, {
+                    skipEmptyLines: true,
+                    complete: function (results) {
+                        issuesData = results.data;
+
+                        const header = issuesData[0];
+                        const languageIdx = getColumnIndex(header, "language");
+
+                        const languages = [
+                            ...new Set(
+                                issuesData.slice(1).map(row => row[languageIdx])
+                            )
+                        ];
+
+                        languages.forEach(lang => {
+                            const option = document.createElement("option");
+
+                            option.value = lang;
+                            option.textContent = lang;
+
+                            languageFilter.appendChild(option);
+                        });
+                        const repoIdx = getColumnIndex(header, "repo");
+
+                        const repos = [
+                            ...new Set(
+                                issuesData.slice(1).map(row => row[repoIdx])
+                            )
+                        ].sort();
+
+                        repos.forEach(repo => {
+                            const option = document.createElement("option");
+                            option.value = repo;
+                            option.textContent = repo;
+                            repoFilter.appendChild(option);
+                        });
+
+                        updateTable();
+                    }
+                });
+            })
+            .catch(err => {
+                console.error("Error loading CSV:", err);
+            });
+    </script>
 
 </body>
+
 </html>
